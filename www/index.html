@@ -22,7 +22,7 @@
                         alert('Successfully reported benchmark report!')
                     }
                     else {
-                        alert("An error has occured making the request")
+                        alert("An error has occured making the request! Status: " + x.status)
                     }
                 }
             }
@@ -31,6 +31,7 @@
             for (var i in report) {
                 params += i +'='+ report[i] +'&'
             }
+            params = params.substring(0, params.length-1)
 
             x.open("POST", "http://phonegap-bench.herokuapp.com", true)
             x.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
