@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>PhoneGap/BenchTemplate</title>
+    <script>
+        var start = new Date()
+    </script>
+</head>
+<body>
+    <script src=phonegap-1.0.0.js></script>
+    <script>
+        var ready = function(cb) {
+            document.addEventListener('deviceready', cb, false)
+        }
+
+        var xhr = function(report) {
+            var x = new XMLHttpRequest()
+
+            x.onreadystatechange = function() {
+                if (x.readyState === 4){
+                    if (x.status === 200) {
+                        alert('Successfully reported benchmark report!')
+                    }
+                    else {
+                        alert("An error has occured making the request")
+                    }
+                }
+            }
+
+            var params = ''
+            for (var i in report) {
+                params += i +'='+ report[i] +'&'
+            }
+
+            x.open("POST", "http://phonegap-bench.herokuapp.com", true)
+            x.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
+            x.send(params)
+        }
+
+        ready(function() {
+            xhr({ report:  'phonegap-basic'
+                , total:    (new Date()) - start
+                , platform: device.platform
+                , name:     device.name
+                , sha:      device.uuid
+            })
+        })
+    </script>
+</body>
+</html>
